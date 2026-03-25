@@ -12,9 +12,17 @@ import jakarta.persistence.ManyToOne;
 
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "loans")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +38,6 @@ public class Loan {
 
     @NotNull private LocalDate loanDate;
     @NotNull private LocalDate duenDate;
-    @NotNull private LocalDate returnDate;
+    private LocalDate returnDate;
 
 }
