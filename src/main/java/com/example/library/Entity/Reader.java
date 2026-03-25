@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -33,9 +34,9 @@ public class Reader {
 
     @NotBlank private String firstName;
 
-    @NotBlank private String lasttName;
+    @NotBlank @Column(name = "last_name") private String lastName;
 
-    @NotBlank private String email;
+    @NotBlank @Column(unique = true, nullable = false) private String email;
 
     @OneToMany(mappedBy = "reader", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Loan> loans = new ArrayList<>();
