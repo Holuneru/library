@@ -5,11 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.library.DTO.Request.AuthorRequestDto;
 import com.example.library.DTO.Response.AuthorResponseDto;
+import com.example.library.DTO.Response.AuthorResponseRepoMethod.AuthorWithBooksDto;
+
 import com.example.library.Service.AuthorService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
 
 
 @RestController
@@ -22,6 +28,11 @@ public class AuthorController {
     @PostMapping("/create")
     public AuthorResponseDto creatAuthor(@RequestBody AuthorRequestDto request) {
         return authorService.createAuthor(request);
+    }
+    
+    @GetMapping("/{id}/books")
+    public AuthorWithBooksDto getBooksofAuthor(@PathVariable Long id) {
+        return authorService.getAuthorWithBooks(id);
     }
     
     

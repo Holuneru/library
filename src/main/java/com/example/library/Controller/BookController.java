@@ -9,6 +9,8 @@ import com.example.library.Service.BookService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,6 +24,11 @@ public class BookController {
     @PostMapping("/create")
     public BookResponseDto createBook(@RequestBody BookRequest request) {
         return bookService.createBook(request);
+    }
+
+    @DeleteMapping(path = "/delete/id/{id}")
+    public BookResponseDto deleteBook(@PathVariable Long id){
+        return bookService.deleteBook(id);
     }
     
     

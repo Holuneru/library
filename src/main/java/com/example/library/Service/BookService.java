@@ -1,8 +1,8 @@
 package com.example.library.Service;
 
-import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.library.DTO.Request.BookRequest;
 import com.example.library.DTO.Response.BookResponseDto;
@@ -24,13 +24,9 @@ public class BookService {
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
 
-    //admin
-    public List<Book> adminFullBooksList(){
-        return bookRepository.findAll();
-    }
-    //admin
+    
 
-
+    @Transactional
     public BookResponseDto createBook(BookRequest request){
         Author author = authorRepository.findById(request.getAuthorId()).orElseThrow(()-> new RuntimeException("Автор не найден"));
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(()-> new RuntimeException("Категория не найдена"));
@@ -52,5 +48,15 @@ public class BookService {
         return response;
 
     }
+
+    public BookResponseDto deleteBook(Long id){
+        Book book = bookRepository.findById(id)
+            .orElseThrow(()-> new RuntimeException("Книги не существует"));
+        BookResponseDto response = new BookResponseDto(id, book.getTitle(), book.getIsbn(), book.getPublishedYear(), book.getTotalCopies(), book.getAvailableCopies(), book.getAuthor().getFirstName()+" "+book.getAuthor().getLastName(), book.getCategory().getName());
+        bookRepository.delete(book);
+        return response;
+    }
+
+    
 
 }

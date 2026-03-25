@@ -48,5 +48,33 @@ public class LoanService {
         LoanResponse response = new LoanResponse(loan.getId(), reader.getFirstName()+" "+reader.getLastName(), book.getTitle(), loan.getLoanDate(), loan.getDuenDate(), loan.getReturnDate());
         return response;
     }
+
+    @Transactional
+    public LoanResponse returnBook(Long id){
+        Loan loan = loanRepository.findByWithDetalis(id)
+            .orElseThrow(()-> new RuntimeException("Выдача не найдена"));
+        if (loan.getReturnDate() != null) {
+            throw new RuntimeException("Книга была возвращенна");
+        }
+        loan.setReturnDate(LocalDate.now());
+        loanRepository.save(loan);
+
+        Book loanBook = loan.getBook();
+        loanBook.setAvailableCopies(loanBook.getAvailableCopies()+1);
+        if (loanBook.getAvailableCopies()>loanBook.getTotalCopies()) {
+            throw new RuntimeException("Check info");
+        }
+
+        bookRepository.save(loanBook);
+
+
+        LoanResponse response = new LoanResponse(id, loan.getReader().getFirstName()+" "+loan.getReader().getLastName(), loanBook.getTitle(), loan.getLoanDate(), loan.getDuenDate(),loan.getReturnDate());
+
+        return response;
+        
+
+
+
+    }
     
 }
