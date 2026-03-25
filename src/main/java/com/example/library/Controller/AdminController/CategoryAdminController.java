@@ -3,8 +3,8 @@ package com.example.library.Controller.AdminController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.library.Entity.Author;
-import com.example.library.Service.AuthorService;
+import com.example.library.Entity.Category;
+import com.example.library.Service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping(path = "/admin/authors")
 @RequiredArgsConstructor
-public class AuthorAdminController {
-    private final AuthorService authorService;
+@RequestMapping(path = "/admin/categories")
+public class CategoryAdminController {
+
+    private final CategoryService categoryService;
 
     @GetMapping
-    public List<Author> adminFullAuthorList() {
-        return authorService.adminFullAuthorList();
+    public List<Category> adminFullCategoriesList() {
+        return categoryService.adminFullCategoriesList();
     }
+    
     
 }
