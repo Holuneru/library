@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ReaderController {
     private final ReaderService readerService;
 
-    @PostMapping("/registration")
+    @PostMapping(path = "/registration")
     public ReaderResponseDto registrationReader(@RequestBody ReaderRequestDto request) {
         
         

@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class LoanController {
     private final LoanService loanService;
 
-    @PostMapping("/create")
+    @PostMapping(path = "/create")
     public LoanResponse createLoan(@RequestBody LoanRequest request) {
         
         return loanService.createLoan(request);
     }
 
-    @PutMapping("/{id}/return")
+    @PutMapping(path = "/{id}/return")
     public LoanResponse returnBook(@PathVariable(name = "id") Long id) {
         return loanService.returnBook(id);
     }

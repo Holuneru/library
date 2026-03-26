@@ -1,12 +1,17 @@
 package com.example.library.Service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.library.DTO.Request.BookRequest;
 import com.example.library.DTO.Response.BookResponseDto;
 import com.example.library.DTO.Response.BookResponseRepoMethod.BookWithAuthorDto;
+import com.example.library.DTO.Response.BookResponseRepoMethod.BookWithLoansDto;
+
+import com.example.library.DTO.Response.ConstDto.LoanSimplDto;
 import com.example.library.Entity.Author;
 import com.example.library.Entity.Book;
 import com.example.library.Entity.Category;
@@ -51,11 +56,23 @@ public class BookService {
     }
 
     public BookWithAuthorDto getBookWithAuthor(Long id){
-        Book book = bookRepository.findWithAuthor(id).orElseThrow(() -> new RuntimeException("Книга не найдена"));
+        Book book = bookRepository.findWithAuthor(id)
+            .orElseThrow(() -> new RuntimeException("Книга не найдена"));
         Author author = book.getAuthor();
         return new BookWithAuthorDto(id, book.getTitle(), author.getFirstName()+" "+author.getLastName());
     }
 
+    public BookWithLoansDto getBookWithLoans(Long id){
+        Book book = bookRepository.findWithLoans(id)
+            .orElseThrow(() -> new RuntimeException("Книга не найдена"));
+        List<LoanSimplDto> LoansOfBook = book.getLoans().stream().map(loan -> new LoanSimplDto(
+            loan.getReader().getFirstName(),
+            loan.getLoanDate(),
+            loan.getDuenDate(),
+            loan.getReturnDate()
+            )).toList();
+        return new BookWithLoansDto(id, book.getTitle(), LoansOfBook);
+    }
 
 
 

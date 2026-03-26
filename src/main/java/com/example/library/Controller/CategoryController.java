@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class CategoryController {
     private final CategoryService categoryService;
     
-    @GetMapping("/{id}/books")
+    @GetMapping(path = "/{id}/books")
     public CategoryWithBooksDto getCategoryWithBooks(@PathVariable(name = "id") Long id) {
         return categoryService.getWhithBooks(id);
     }
     
 
-    @PostMapping("/create")
+    @PostMapping(path = "/create")
     public CategoryResponse createCategory(@RequestBody CategoryRequest request) {
         return categoryService.createCategory(request);
     }

@@ -25,12 +25,12 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
-    @PostMapping("/create")
+    @PostMapping(path = "/create")
     public AuthorResponseDto creatAuthor(@RequestBody AuthorRequestDto request) {
         return authorService.createAuthor(request);
     }
     
-    @GetMapping("/{id}/books")
+    @GetMapping(path = "/{id}/books")
     public AuthorWithBooksDto getBooksofAuthor(@PathVariable Long id) {
         return authorService.getAuthorWithBooks(id);
     }
