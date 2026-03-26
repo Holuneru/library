@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.library.DTO.Request.BookRequest;
 import com.example.library.DTO.Response.BookResponseDto;
+import com.example.library.DTO.Response.BookResponseRepoMethod.BookWithAuthorDto;
 import com.example.library.Entity.Author;
 import com.example.library.Entity.Book;
 import com.example.library.Entity.Category;
@@ -49,6 +50,15 @@ public class BookService {
 
     }
 
+    public BookWithAuthorDto getBookWithAuthor(Long id){
+        Book book = bookRepository.findWithAuthor(id).orElseThrow(() -> new RuntimeException("Книга не найдена"));
+        Author author = book.getAuthor();
+        return new BookWithAuthorDto(id, book.getTitle(), author.getFirstName()+" "+author.getLastName());
+    }
+
+
+
+
     public BookResponseDto deleteBook(Long id){
         Book book = bookRepository.findById(id)
             .orElseThrow(()-> new RuntimeException("Книги не существует"));
@@ -56,6 +66,8 @@ public class BookService {
         bookRepository.delete(book);
         return response;
     }
+
+    
 
     
 
