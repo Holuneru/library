@@ -9,7 +9,7 @@ import com.example.library.DTO.Request.AuthorRequestDto;
 
 import com.example.library.DTO.Response.AuthorResponseDto;
 import com.example.library.DTO.Response.AuthorResponseRepoMethod.AuthorWithBooksDto;
-import com.example.library.DTO.Response.AuthorResponseRepoMethod.BookSimpleDto;
+import com.example.library.DTO.Response.ConstDto.BookSimpleDto;
 import com.example.library.Entity.Author;
 import com.example.library.Repository.AuthorRepository;
 

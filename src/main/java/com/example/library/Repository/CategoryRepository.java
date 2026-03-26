@@ -13,6 +13,6 @@ import com.example.library.Entity.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     
     @Query("SELECT c FROM Category c LEFT JOIN FETCH c.books WHERE c.id = :id")
-    Optional<Category> findWithBooks(@Param("id") Long id); //Не реализованно в CategoryService
+    Optional<Category> findWithBooks(@Param("id") Long id); 
 
 }

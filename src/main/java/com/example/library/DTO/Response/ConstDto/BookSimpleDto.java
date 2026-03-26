@@ -1,4 +1,4 @@
-package com.example.library.DTO.Response.AuthorResponseRepoMethod;
+package com.example.library.DTO.Response.ConstDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
