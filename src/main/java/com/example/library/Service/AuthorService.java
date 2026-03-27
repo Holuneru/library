@@ -23,9 +23,31 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
 
     //admin
-    public List<Author> adminFullAuthorList(){
-        return authorRepository.findAll();
-    }
+    public List<AuthorWithBooksDto> adminFullAuthorList() {
+    List<Author> authors = authorRepository.findAllWithBooks();
+    
+    return authors.stream().map(author -> {
+        AuthorWithBooksDto dto = new AuthorWithBooksDto();
+        dto.setId(author.getId());
+        dto.setAuthorFullName(author.getFirstName() + " " + author.getLastName());
+        
+        if (author.getBooks() != null) {
+            List<BookSimpleDto> bookSimpleDtos = author.getBooks().stream()
+                .map(book -> new BookSimpleDto(
+                    book.getId(), 
+                    book.getTitle(), 
+                    book.getAvailableCopies()
+                ))
+                .toList();
+            
+            // 1. Обязательно сеттим список книг в DTO
+            dto.setBooks(bookSimpleDtos); 
+        }
+        
+        // 2. Возвращаем объект dto для каждой итерации map
+        return dto; 
+    }).toList();
+}
     //admin
 
     @Transactional
