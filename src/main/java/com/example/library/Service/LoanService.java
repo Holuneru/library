@@ -1,12 +1,14 @@
 package com.example.library.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.library.DTO.Request.LoanRequest;
 import com.example.library.DTO.Response.LoanResponse;
+import com.example.library.DTO.Response.LoanResponseRepoMethod.LoanShortDto;
 import com.example.library.Entity.Book;
 import com.example.library.Entity.Loan;
 import com.example.library.Entity.Reader;
@@ -24,6 +26,9 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final ReaderRepository readerRepository;
     private final BookRepository bookRepository;
+
+
+    
     @Transactional
     public LoanResponse createLoan(LoanRequest request){
         Reader reader = readerRepository.findById(request.getReaderId()).orElseThrow(()-> new RuntimeException("Читатель не найден"));
@@ -48,7 +53,7 @@ public class LoanService {
         LoanResponse response = new LoanResponse(loan.getId(), reader.getFirstName()+" "+reader.getLastName(), book.getTitle(), loan.getLoanDate(), loan.getDuenDate(), loan.getReturnDate());
         return response;
     }
-
+    
     @Transactional
     public LoanResponse returnBook(Long id){
         Loan loan = loanRepository.findByWithDetalis(id)
@@ -71,10 +76,18 @@ public class LoanService {
         LoanResponse response = new LoanResponse(id, loan.getReader().getFirstName()+" "+loan.getReader().getLastName(), loanBook.getTitle(), loan.getLoanDate(), loan.getDuenDate(),loan.getReturnDate());
 
         return response;
-        
-
-
-
     }
+
+    public List<LoanShortDto> findLoanReturnDayNull(){
+            List<Loan> loansNOTreturn = loanRepository.findNullreturnDate();
+            List<LoanShortDto> response = loansNOTreturn.stream().map(loan -> new LoanShortDto(
+                loan.getId(), 
+                loan.getReader().getLastName() , 
+                loan.getReader().getId(), 
+                loan.getLoanDate(), 
+                loan.getDuenDate())).toList();
+            return response;
+        }
+
     
 }

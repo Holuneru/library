@@ -1,5 +1,6 @@
 package com.example.library.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     
     @Query("SELECT l FROM Loan l LEFT JOIN FETCH l.book LEFT JOIN FETCH l.reader WHERE l.id = :id")
     Optional<Loan> findByWithDetalis(@Param("id") Long id);
+    @Query("select l from Loan l left join fetch l.reader where l.returnDate is null")
+    List<Loan> findNullreturnDate();
 
 }
